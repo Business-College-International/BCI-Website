@@ -8,6 +8,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; }
 a { color: inherit; text-decoration: none; }
+input, select, button { font: inherit; }
 
 .page { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
 .hero { padding: 96px 0 72px; max-width: 860px; }
@@ -17,15 +18,23 @@ h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 3rem); }
 .lead { max-width: 720px; margin: 24px 0 0; color: #5d697b; font-size: 1.15rem; line-height: 1.7; }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
 .primary, .secondary { display: inline-flex; padding: 12px 18px; border-radius: 10px; font-weight: 700; }
-.primary { background: #152033; color: #fff; }
+.primary { background: #152033; color: #fff; border: 0; }
 .secondary { border: 1px solid #cbd5e1; background: #fff; }
 .section { padding: 56px 0; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
 .card, .callout { border: 1px solid #dce3ed; border-radius: 18px; background: #fff; padding: 24px; }
-.card p, .callout p { color: #5d697b; line-height: 1.65; }
+.card p, .callout > p { color: #5d697b; line-height: 1.65; }
 .callout { margin-bottom: 72px; }
+.application-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+.application-form label { display: grid; gap: 7px; font-weight: 700; }
+.application-form input, .application-form select { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 10px; background: #fff; }
+.application-form button { grid-column: 1 / -1; justify-content: center; cursor: pointer; }
+.application-form button:disabled { opacity: .5; cursor: not-allowed; }
+.success { margin-top: 24px; padding: 18px; border-radius: 12px; background: #edf8f0; }
+.success code { display: inline-block; margin: 8px 0; padding: 8px 10px; border-radius: 8px; background: #fff; font-size: 1.1rem; }
+.error { color: #9d2636; font-weight: 700; }
 
 @media (max-width: 720px) {
   .hero { padding-top: 56px; }
-  .grid { grid-template-columns: 1fr; }
+  .grid, .application-form { grid-template-columns: 1fr; }
 }
