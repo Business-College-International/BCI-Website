@@ -40,7 +40,11 @@ export default function App() {
       if (!response.ok) throw new Error('Application submission failed');
       const result = (await response.json()) as { trackingCode: string };
       setTrackingCode(result.trackingCode); setStatusCode(result.trackingCode); document.getElementById('track')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } catch { setError('We could not submit the application right now. Please try again.'); } finally { setSubmitting(false); }
+    } catch (error) {
+      setError(error instanceof Error && error.message === 'website-api-not-configured'
+        ? 'Admissions are temporarily unavailable because the website API is not configured.'
+        : 'We could not submit the application right now. Please try again.');
+    } finally { setSubmitting(false); }
   }
 
   async function checkStatus(event: FormEvent<HTMLFormElement>) {
@@ -51,7 +55,11 @@ export default function App() {
       const response = await fetch(`${API_BASE_URL}/applications/track/${encodeURIComponent(code)}`);
       if (!response.ok) throw new Error('not-found');
       setStatusResult(await response.json());
-    } catch { setStatusError('We could not find that application. Check the tracking code and try again.'); } finally { setStatusLoading(false); }
+    } catch (error) {
+      setStatusError(error instanceof Error && error.message === 'website-api-not-configured'
+        ? 'Application tracking is temporarily unavailable because the website API is not configured.'
+        : 'We could not find that application. Check the tracking code and try again.');
+    } finally { setStatusLoading(false); }
   }
 
   return (
