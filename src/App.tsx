@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000/api/v1';
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+const API_BASE_URL = configuredApiBaseUrl || (import.meta.env.PROD ? null : 'http://localhost:3000/api/v1');
 
 const programmes = [
   { label: 'Agric', value: 'AGRIC', description: 'A practical pathway for learners interested in agriculture, food systems and related sciences.' },
@@ -34,6 +35,7 @@ export default function App() {
   async function submitApplication(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setSubmitting(true); setError(null); setTrackingCode(null);
     try {
+      if (!API_BASE_URL) throw new Error('website-api-not-configured');
       const response = await fetch(`${API_BASE_URL}/applications`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
       if (!response.ok) throw new Error('Application submission failed');
       const result = (await response.json()) as { trackingCode: string };
@@ -44,6 +46,7 @@ export default function App() {
   async function checkStatus(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setStatusLoading(true); setStatusError(null); setStatusResult(null);
     try {
+      if (!API_BASE_URL) throw new Error('website-api-not-configured');
       const code = statusCode.trim(); if (!code) throw new Error('missing');
       const response = await fetch(`${API_BASE_URL}/applications/track/${encodeURIComponent(code)}`);
       if (!response.ok) throw new Error('not-found');
