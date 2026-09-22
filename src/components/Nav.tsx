@@ -23,8 +23,8 @@ export function Nav() {
   return (
     <header className={'nav ' + (solid ? 'nav-solid ' : '') + (open ? 'nav-open' : '')}>
       <div className="nav-inner">
-        <a href="#top" className="nav-brand" onClick={() => setOpen(false)}>
-          <span className="nav-mark">BCI</span>
+        <a href="#top" className="nav-brand" onClick={() => setOpen(false)} aria-label={school.name}>
+          <img className="nav-logo" src="/bci-crest.webp" alt="" aria-hidden="true" width="46" height="40" />
           <span className="nav-name">{school.shortName}</span>
         </a>
 

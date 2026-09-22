@@ -20,7 +20,9 @@ button { cursor: pointer; }
   --paper: #ffffff;
   --mist: #f5f5f6;
   --line: rgba(20, 20, 20, 0.10);
-  --accent: #b8863a;
+  --brand-red: #df2027;
+  --brand-blue: #0757b7;
+  --accent: var(--brand-red);
 
   --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -194,18 +196,13 @@ html, body { scroll-snap-type: y proximity; }
   gap: 20px;
 }
 .nav-brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
-.nav-mark {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: var(--ink-soft);
-  color: var(--paper);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+.nav-logo {
+  width: 46px;
+  height: 40px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  border-radius: 7px;
+  background: var(--paper);
 }
 .nav-name { font-weight: 700; }
 .nav-links { display: flex; align-items: center; gap: 22px; font-size: 0.9rem; font-weight: 600; }
