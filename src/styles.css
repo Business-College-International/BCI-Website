@@ -241,6 +241,38 @@ html, body { scroll-snap-type: y proximity; }
 .nav-burger span { width: 16px; height: 1.5px; background: var(--ink); }
 .nav-drawer { display: none; }
 
+.hero-identity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: fit-content;
+  margin-bottom: 28px;
+  padding: 8px 14px 8px 8px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+}
+.hero-logo {
+  width: 72px;
+  height: 64px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  background: var(--paper);
+}
+.hero-identity-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.hero-identity-meta {
+  margin: 4px 0 0;
+  color: color-mix(in srgb, var(--ink) 58%, transparent);
+  font-size: 0.8rem;
+}
+
 /* ---------- Hero ---------- */
 .hero {
   min-height: 100svh;
@@ -480,6 +512,10 @@ html, body { scroll-snap-type: y proximity; }
   .btn-row .btn { width: 100%; }
   .hero-image { margin-top: 36px; }
   .nav-logo { width: 48px; height: 41px; }
+  .hero-identity { gap: 11px; margin-bottom: 22px; padding: 6px 10px 6px 6px; border-radius: 14px; }
+  .hero-logo { width: 54px; height: 47px; border-radius: 8px; }
+  .hero-identity-name { font-size: 0.84rem; }
+  .hero-identity-meta { font-size: 0.73rem; }
   .nav-name { font-size: 0.95rem; }
   .card { padding: 22px; }
   .placeholder { border-radius: 18px; padding: 20px; }

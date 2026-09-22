@@ -18,7 +18,8 @@ export function ImagePlaceholder({ caption, aspect = 'wide', className = '' }: I
           <path d="M21 16l-5.2-5.2a1.6 1.6 0 0 0-2.26 0L4 20" />
         </svg>
       </span>
-      <span className="placeholder-caption">Image of {caption}</span>
+      <span className="placeholder-kicker">Photography slot</span>
+      <span className="placeholder-caption">{caption}</span>
     </div>
   );
 }

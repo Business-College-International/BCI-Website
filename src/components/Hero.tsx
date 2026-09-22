@@ -9,7 +9,21 @@ export function Hero() {
     <section id="top" data-snap-section className="section hero">
       <div className="hero-bg" aria-hidden="true" />
       <div className="page reveal" ref={ref}>
-        <p className="eyebrow">{school.shortName} · Est. {school.founded} · {school.country}</p>
+        <div className="hero-identity">
+          <img
+            className="hero-logo"
+            src="/bci-crest.webp"
+            alt="Business College International crest"
+            width="72"
+            height="64"
+          />
+          <div>
+            <p className="hero-identity-name">{school.name}</p>
+            <p className="hero-identity-meta">Tamale, Ghana · Est. {school.founded}</p>
+          </div>
+        </div>
+
+        <p className="eyebrow">{school.shortName} · {school.country} · {school.founded}</p>
         <h1 className="display-1">
           One school.<br />
           KG to SHS,<br />
