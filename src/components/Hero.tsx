@@ -13,7 +13,7 @@ export function Hero() {
           <div className="hero-identity">
             <img
               className="hero-logo"
-              src="/bci-crest.webp"
+              src="/bci-logo.svg"
               alt="Business College International crest"
               width="72"
               height="64"
@@ -61,7 +61,7 @@ export function Hero() {
             </div>
             <img
               className="hero-art-logo"
-              src="/bci-crest.webp"
+              src="/bci-logo.svg"
               alt=""
               aria-hidden="true"
               width="420"
