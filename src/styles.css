@@ -326,11 +326,13 @@ body {
 .section {
   position: relative;
   min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: clamp(72px, 10vh, 140px) 0;
-  scroll-margin-top: 72px;
+  scroll-margin-top: 0;
 }
 .section.tinted {
   background: var(--mist);
@@ -339,7 +341,7 @@ body {
 }
 
 html, body {
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
   overscroll-behavior-y: none;
 }
 [data-snap-section] {
