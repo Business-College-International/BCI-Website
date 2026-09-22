@@ -42,10 +42,23 @@ export function Apply() {
     try {
       if (!API_BASE_URL) throw new Error('website-api-not-configured');
 
+      const applicationPayload = {
+        ...form,
+        firstName: form.firstName.trim(),
+        lastName: form.lastName.trim(),
+        guardianName: form.guardianName.trim(),
+        guardianPhone: form.guardianPhone.trim(),
+        previousSchool: form.previousSchool.trim() || undefined,
+      };
+
+      if (!applicationPayload.firstName || !applicationPayload.lastName || !applicationPayload.guardianName) {
+        throw new Error('missing-required-name');
+      }
+
       const response = await fetch(API_BASE_URL + '/applications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(applicationPayload),
       });
 
       if (!response.ok) throw new Error('Application submission failed');
@@ -60,7 +73,9 @@ export function Apply() {
       setError(
         err instanceof Error && err.message === 'website-api-not-configured'
           ? 'Admissions are temporarily unavailable because the website API is not configured.'
-          : 'We could not submit the application right now. Please try again.',
+          : err instanceof Error && err.message === 'missing-required-name'
+            ? 'Please enter the learner’s first name, last name, and guardian name.'
+            : 'We could not submit the application right now. Please try again.',
       );
     } finally {
       setSubmitting(false);
