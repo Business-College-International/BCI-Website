@@ -479,6 +479,19 @@ html, body { scroll-snap-type: y proximity; }
 .skip-link:focus { transform: translateY(0); }
 
 .nav-brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.nav-logo-button {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+}
+.nav-logo-button:hover { background: rgba(20,20,20,0.045); }
+.nav-logo-button:focus-visible { outline-offset: 2px; }
 .nav-logo {
   width: 46px;
   height: 40px;
@@ -487,7 +500,7 @@ html, body { scroll-snap-type: y proximity; }
   border-radius: 7px;
   background: var(--paper);
 }
-.nav-name { font-weight: 700; }
+ .nav-name { font-weight: 700; }
 .nav-links { display: flex; align-items: center; gap: 22px; font-size: 0.9rem; font-weight: 600; }
 .nav-links a { opacity: 0.75; transition: opacity 0.15s ease; }
 .nav-links a:hover { opacity: 1; }

@@ -18,11 +18,16 @@ export default function App() {
   const [introComplete, setIntroComplete] = useState(false);
   useSnapAssist();
 
+  const replayIntro = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    setIntroComplete(false);
+  };
+
   return (
     <div className={'snap-root ' + (introComplete ? 'site-ready' : 'site-awaiting')}>
       {!introComplete && <Intro onComplete={() => setIntroComplete(true)} />}
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <Nav introComplete={introComplete} />
+      <Nav introComplete={introComplete} onReplayIntro={replayIntro} />
       <main id="main-content" tabIndex={-1}>
         <Hero />
         <About />

@@ -3,9 +3,10 @@ import { navLinks, school } from '../data/content';
 
 type NavProps = {
   introComplete: boolean;
+  onReplayIntro: () => void;
 };
 
-export function Nav({ introComplete }: NavProps) {
+export function Nav({ introComplete, onReplayIntro }: NavProps) {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement | null>(null);
@@ -43,18 +44,25 @@ export function Nav({ introComplete }: NavProps) {
       aria-hidden={!introComplete}
     >
       <div className="nav-inner">
-        <a href="#top" className="nav-brand" onClick={() => setOpen(false)} aria-label={school.name}>
-          <img
-            className="nav-logo"
-            data-nav-logo-target
-            src="/bci-logo.svg"
-            alt=""
-            aria-hidden="true"
-            width="46"
-            height="40"
-          />
-          <span className="nav-name">{school.shortName}</span>
-        </a>
+        <div className="nav-brand">
+          <button
+            type="button"
+            className="nav-logo-button"
+            onClick={onReplayIntro}
+            aria-label="Replay the BCI introduction"
+          >
+            <img
+              className="nav-logo"
+              data-nav-logo-target
+              src="/bci-logo.svg"
+              alt=""
+              aria-hidden="true"
+              width="46"
+              height="40"
+            />
+          </button>
+          <a href="#top" className="nav-name">{school.shortName}</a>
+        </div>
 
         <nav className="nav-links" aria-label="Primary">
           {navLinks.map((link) => (
