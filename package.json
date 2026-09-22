@@ -5,6 +5,7 @@
   "description": "Public marketing website for Business College International (BCI) — school info, programmes, and online application.",
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
     "build": "vite build",
     "preview": "vite preview"
   },
