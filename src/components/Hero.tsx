@@ -1,9 +1,71 @@
+import { useEffect, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import { school } from '../data/content';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
-export function Hero() {
+const MOTTO_LINES = [
+  { text: 'Our school.', className: 'hero-motto-school' },
+  { text: 'Our dream.', className: 'hero-motto-dream' },
+  { text: 'Our future.', className: 'hero-motto-future' },
+];
+
+type HeroProps = {
+  introComplete: boolean;
+};
+
+export function Hero({ introComplete }: HeroProps) {
   const ref = useReveal<HTMLDivElement>();
+  const [activeLine, setActiveLine] = useState(0);
+  const [charCount, setCharCount] = useState(0);
+  const [mottoDone, setMottoDone] = useState(false);
+
+  useEffect(() => {
+    setActiveLine(0);
+    setCharCount(0);
+    setMottoDone(false);
+
+    if (!introComplete) return;
+
+    let cancelled = false;
+    let line = 0;
+    let char = 0;
+    let timer = 0;
+
+    const type = () => {
+      if (cancelled) return;
+
+      const current = MOTTO_LINES[line].text;
+
+      if (char < current.length) {
+        char += 1;
+        setCharCount(char);
+        timer = window.setTimeout(type, 54);
+        return;
+      }
+
+      if (line < MOTTO_LINES.length - 1) {
+        timer = window.setTimeout(() => {
+          if (cancelled) return;
+          line += 1;
+          char = 0;
+          setActiveLine(line);
+          setCharCount(0);
+          timer = window.setTimeout(type, 90);
+        }, 820);
+      } else {
+        timer = window.setTimeout(() => {
+          if (!cancelled) setMottoDone(true);
+        }, 900);
+      }
+    };
+
+    timer = window.setTimeout(type, 260);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [introComplete]);
 
   return (
     <section id="top" data-snap-section className="section hero">
@@ -12,10 +74,26 @@ export function Hero() {
         <div className="hero-copy">
           <p className="eyebrow">{school.shortName} · {school.country} · {school.founded}</p>
 
-          <h1 className="display-1">
-            One school.<br />
-            KG to SHS,<br />
-            <span className="ink-outline">one journey.</span>
+          <h1 className="hero-motto" aria-label={MOTTO_LINES.map((line) => line.text).join(' ')}>
+            {MOTTO_LINES.map((line, index) => {
+              const visibleText =
+                index < activeLine
+                  ? line.text
+                  : index === activeLine
+                    ? line.text.slice(0, charCount)
+                    : '';
+
+              const cursorVisible = index === activeLine && !mottoDone;
+
+              return (
+                <span key={line.text} className={'hero-motto-line ' + line.className}>
+                  <span aria-hidden="true">{visibleText}</span>
+                  {index === activeLine && (
+                    <span className={'hero-motto-cursor' + (cursorVisible ? '' : ' hero-motto-cursor-hidden')} aria-hidden="true" />
+                  )}
+                </span>
+              );
+            })}
           </h1>
 
           <p className="lead">

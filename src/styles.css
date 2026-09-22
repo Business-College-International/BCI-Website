@@ -1077,6 +1077,7 @@ html, body { scroll-snap-type: y proximity; }
   .story-timeline::before { left: 15px; top: 16px; }
   .about-bottom { margin-top: 34px; }
   .hero-shell { gap: 28px; }
+  .hero-motto { font-size: clamp(2.35rem, 11vw, 4.3rem); min-height: 3.2em; }
   .hero-art-frame { border-radius: 22px; }
   .hero-art-top { padding: 14px 16px 10px; }
   .hero-art-rule { margin: 0 16px; }

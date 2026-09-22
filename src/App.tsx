@@ -29,7 +29,7 @@ export default function App() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Nav introComplete={introComplete} onReplayIntro={replayIntro} />
       <main id="main-content" tabIndex={-1}>
-        <Hero />
+        <Hero introComplete={introComplete} />
         <About />
         <Pathway />
         <Routes />
