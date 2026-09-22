@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { useSnapAssist } from './hooks/useSnapAssist';
+import { Intro } from './components/Intro';
 import { Nav } from './components/Nav';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -13,12 +15,14 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 
 export default function App() {
+  const [introComplete, setIntroComplete] = useState(false);
   useSnapAssist();
 
   return (
-    <div className="snap-root">
+    <div className={'snap-root ' + (introComplete ? 'site-ready' : 'site-awaiting')}>
+      {!introComplete && <Intro onComplete={() => setIntroComplete(true)} />}
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <Nav />
+      <Nav introComplete={introComplete} />
       <main id="main-content" tabIndex={-1}>
         <Hero />
         <About />

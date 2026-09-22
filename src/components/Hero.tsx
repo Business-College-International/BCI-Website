@@ -10,20 +10,6 @@ export function Hero() {
       <div className="hero-bg" aria-hidden="true" />
       <div className="page hero-shell reveal" ref={ref}>
         <div className="hero-copy">
-          <div className="hero-identity">
-            <img
-              className="hero-logo"
-              src="/bci-logo.svg"
-              alt="Business College International crest"
-              width="72"
-              height="64"
-            />
-            <div>
-              <p className="hero-identity-name">{school.name}</p>
-              <p className="hero-identity-meta">Tamale, Ghana · Est. {school.founded}</p>
-            </div>
-          </div>
-
           <p className="eyebrow">{school.shortName} · {school.country} · {school.founded}</p>
 
           <h1 className="display-1">
@@ -49,30 +35,24 @@ export function Hero() {
           </div>
         </div>
 
-        <aside className="hero-art" aria-label="BCI school identity">
-          <div className="hero-art-frame">
-            <div className="hero-art-top">
-              <span>Business College International</span>
-              <span>Tamale</span>
+        <aside className="hero-art" aria-label="BCI at a glance">
+          <div className="hero-proof">
+            <div className="hero-proof-top">
+              <span>BCI / 01</span>
+              <span>Since {school.founded}</span>
             </div>
-            <div className="hero-art-rule" aria-hidden="true">
-              <span className="hero-art-rule-red" />
-              <span className="hero-art-rule-blue" />
+            <div className="hero-proof-rule" aria-hidden="true">
+              <span className="hero-proof-rule-red" />
+              <span className="hero-proof-rule-blue" />
             </div>
-            <img
-              className="hero-art-logo"
-              src="/bci-logo.svg"
-              alt=""
-              aria-hidden="true"
-              width="420"
-              height="420"
-              fetchPriority="high"
-            />
-            <div className="hero-art-bottom">
-              <span className="hero-art-index">BCI / 01</span>
-              <p>
-                From our collective weakness, we derive our individual strength.
-              </p>
+            <div className="hero-proof-core">
+              <span>KG</span>
+              <span className="hero-proof-arrow" aria-hidden="true">→</span>
+              <span>SHS</span>
+            </div>
+            <div className="hero-proof-bottom">
+              <span className="hero-proof-index">PATHWAY</span>
+              <p>One connected school journey from kindergarten through senior high school.</p>
             </div>
           </div>
         </aside>

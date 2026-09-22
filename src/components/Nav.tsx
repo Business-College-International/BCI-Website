@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { navLinks, school } from '../data/content';
 
-export function Nav() {
+type NavProps = {
+  introComplete: boolean;
+};
+
+export function Nav({ introComplete }: NavProps) {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement | null>(null);
@@ -29,10 +33,26 @@ export function Nav() {
   }, [open]);
 
   return (
-    <header className={'nav ' + (solid ? 'nav-solid ' : '') + (open ? 'nav-open' : '')}>
+    <header
+      className={
+        'nav ' +
+        (solid ? 'nav-solid ' : '') +
+        (open ? 'nav-open ' : '') +
+        (introComplete ? 'nav-ready' : '')
+      }
+      aria-hidden={!introComplete}
+    >
       <div className="nav-inner">
         <a href="#top" className="nav-brand" onClick={() => setOpen(false)} aria-label={school.name}>
-          <img className="nav-logo" src="/bci-logo.svg" alt="" aria-hidden="true" width="46" height="40" />
+          <img
+            className="nav-logo"
+            data-nav-logo-target
+            src="/bci-logo.svg"
+            alt=""
+            aria-hidden="true"
+            width="46"
+            height="40"
+          />
           <span className="nav-name">{school.shortName}</span>
         </a>
 
@@ -58,11 +78,7 @@ export function Nav() {
         </button>
       </div>
 
-      <div
-        id="mobile-navigation"
-        className="nav-drawer"
-        aria-hidden={!open}
-      >
+      <div id="mobile-navigation" className="nav-drawer" aria-hidden={!open}>
         {navLinks.map((link) => (
           <a key={link.href} href={link.href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
             {link.label}
