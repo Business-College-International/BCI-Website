@@ -97,7 +97,7 @@ html, body { scroll-snap-type: y proximity; }
 }
 .display-1 {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: clamp(2.6rem, 7vw, 5.4rem);
   line-height: 0.98;
   letter-spacing: -0.02em;
