@@ -17,8 +17,9 @@ export default function App() {
 
   return (
     <div className="snap-root">
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <Nav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero />
         <About />
         <Pathway />
