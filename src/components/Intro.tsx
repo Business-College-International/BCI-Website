@@ -20,7 +20,7 @@ export function Intro({ onComplete }: IntroProps) {
     document.documentElement.classList.remove('intro-active');
     document.body.classList.remove('intro-active');
     onComplete();
-  }, [finish]);
+  }, [onComplete]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -74,7 +74,7 @@ export function Intro({ onComplete }: IntroProps) {
       root.classList.remove('intro-active');
       body.classList.remove('intro-active');
     };
-  }, [onComplete]);
+  }, [finish]);
 
   return (
     <div className={'intro-overlay intro-phase-' + phase} role="status" aria-label="Welcome to Business College International">
