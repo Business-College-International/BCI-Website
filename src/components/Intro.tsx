@@ -19,8 +19,9 @@ export function Intro({ onComplete }: IntroProps) {
     completeRef.current = true;
     document.documentElement.classList.remove('intro-active');
     document.body.classList.remove('intro-active');
+    onHandoff();
     onComplete();
-  }, [onComplete]);
+  }, [onComplete, onHandoff]);
 
   useEffect(() => {
     const root = document.documentElement;

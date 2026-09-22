@@ -80,24 +80,23 @@ body.intro-active {
   aspect-ratio: 2240 / 1916;
   display: grid;
   place-items: center;
-  transform:
-    translate(-50%, -50%)
-    scaleX(1)
-    scaleY(1);
+  transform: translate(-50%, -50%);
   transform-origin: center;
-  will-change: transform;
+  will-change: left, top, width, height, transform;
   z-index: 4;
+  transition:
+    left 0.96s cubic-bezier(0.16, 1, 0.3, 1),
+    top 0.96s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.96s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.96s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.96s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .intro-phase-opening .intro-logo-stage {
   animation: intro-logo-enter 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .intro-phase-flight .intro-logo-stage,
 .intro-phase-handoff .intro-logo-stage {
-  transform:
-    translate(calc(-50% + var(--intro-x)), calc(-50% + var(--intro-y)))
-    scaleX(var(--intro-sx))
-    scaleY(var(--intro-sy));
-  transition: transform 0.92s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: none;
 }
 @keyframes intro-logo-enter {
   0% { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
@@ -182,7 +181,8 @@ body.intro-active {
 .intro-phase-flight .intro-motto span {
   animation: intro-motto-in 0.55s var(--motto-delay) cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.intro-motto span:nth-child(2) { color: var(--brand-red); }
+.intro-motto span:nth-child(1) { color: var(--brand-red); }
+.intro-motto span:nth-child(2) { color: var(--ink); }
 .intro-motto span:nth-child(3) { color: var(--brand-blue); }
 @keyframes intro-motto-in {
   to { opacity: 1; transform: translateY(0); }

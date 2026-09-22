@@ -14,20 +14,27 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 
 export default function App() {
-  const [introComplete, setIntroComplete] = useState(false);
+  const [introActive, setIntroActive] = useState(true);
+  const [siteReady, setSiteReady] = useState(false);
 
   const replayIntro = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-    setIntroComplete(false);
+    setSiteReady(false);
+    setIntroActive(true);
   };
 
   return (
-    <div className={'snap-root ' + (introComplete ? 'site-ready' : 'site-awaiting')}>
-      {!introComplete && <Intro onComplete={() => setIntroComplete(true)} />}
+    <div className={'snap-root ' + (siteReady ? 'site-ready' : 'site-awaiting')}>
+      {introActive && (
+        <Intro
+          onHandoff={() => setSiteReady(true)}
+          onComplete={() => setIntroActive(false)}
+        />
+      )}
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <Nav introComplete={introComplete} onReplayIntro={replayIntro} />
+      <Nav introComplete={siteReady} onReplayIntro={replayIntro} />
       <main id="main-content" tabIndex={-1}>
-        <Hero introComplete={introComplete} />
+        <Hero introComplete={siteReady} />
         <About />
         <Pathway />
         <Routes />

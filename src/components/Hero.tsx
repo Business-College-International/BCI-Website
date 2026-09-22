@@ -1,19 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
-import { school } from '../data/content';
+import { brandMottoLines, school } from '../data/content';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
-const MOTTO_LINES = [
-  { text: 'Our school.', className: 'hero-motto-school' },
-  { text: 'Our dream.', className: 'hero-motto-dream' },
-  { text: 'Our future.', className: 'hero-motto-future' },
-];
-
-type HeroProps = {
-  introComplete: boolean;
-};
-
-export function Hero({ introComplete }: HeroProps) {
+export function Hero({ introComplete }: { introComplete: boolean }) {
   const ref = useReveal<HTMLDivElement>();
   const [activeLine, setActiveLine] = useState(0);
   const [charCount, setCharCount] = useState(0);
@@ -23,7 +13,6 @@ export function Hero({ introComplete }: HeroProps) {
     setActiveLine(0);
     setCharCount(0);
     setMottoDone(false);
-
     if (!introComplete) return;
 
     let cancelled = false;
@@ -33,8 +22,7 @@ export function Hero({ introComplete }: HeroProps) {
 
     const type = () => {
       if (cancelled) return;
-
-      const current = MOTTO_LINES[line].text;
+      const current = brandMottoLines[line].text;
 
       if (char < current.length) {
         char += 1;
@@ -43,7 +31,7 @@ export function Hero({ introComplete }: HeroProps) {
         return;
       }
 
-      if (line < MOTTO_LINES.length - 1) {
+      if (line < brandMottoLines.length - 1) {
         timer = window.setTimeout(() => {
           if (cancelled) return;
           line += 1;
@@ -76,9 +64,9 @@ export function Hero({ introComplete }: HeroProps) {
 
           <h1
             className="hero-motto"
-            aria-label={MOTTO_LINES.map((line) => line.text).join(' ')}
+            aria-label={brandMottoLines.map((line) => line.text).join(' ')}
           >
-            {MOTTO_LINES.map((line, index) => {
+            {brandMottoLines.map((line, index) => {
               const visibleText =
                 index < activeLine
                   ? line.text

@@ -6,6 +6,12 @@ export const school = {
   country: 'Ghana',
 };
 
+export const brandMottoLines = [
+  { text: 'Our dream.', className: 'motto-dream' },
+  { text: 'Our school.', className: 'motto-school' },
+  { text: 'Our future.', className: 'motto-future' },
+] as const;
+
 export const motto = [
   'BCI, our dream our school our future.',
   'BCI, talk to us, we can help you.',
