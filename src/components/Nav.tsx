@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { navLinks, school } from '../data/content';
 
 export function Nav() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
+  const burgerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 12);
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape' && open) {
+        setOpen(false);
+        burgerRef.current?.focus();
+      }
     };
 
     onScroll();
@@ -18,7 +22,11 @@ export function Nav() {
       window.removeEventListener('scroll', onScroll);
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, []);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) burgerRef.current?.focus();
+  }, [open]);
 
   return (
     <header className={'nav ' + (solid ? 'nav-solid ' : '') + (open ? 'nav-open' : '')}>
@@ -37,6 +45,7 @@ export function Nav() {
         <a className="btn btn-primary btn-small nav-cta" href="#apply">Apply now</a>
 
         <button
+          ref={burgerRef}
           className="nav-burger"
           type="button"
           aria-label={open ? 'Close menu' : 'Open menu'}
