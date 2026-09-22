@@ -1,3 +1,270 @@
+/* ---------- Intro sequence ---------- */
+html.intro-active,
+body.intro-active {
+  overflow: hidden;
+}
+
+.site-awaiting main,
+.site-awaiting footer {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+}
+
+.site-ready main,
+.site-ready footer {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  isolation: isolate;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.intro-phase-handoff {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+}
+.intro-grid-line {
+  position: absolute;
+  background: var(--line);
+  transform-origin: center;
+}
+.intro-grid-line-x {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: scaleX(0);
+}
+.intro-grid-line-y {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: scaleY(0);
+}
+.intro-phase-motto .intro-grid-line-x,
+.intro-phase-motto .intro-grid-line-y {
+  animation: intro-grid-open 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes intro-grid-open {
+  to { transform: scaleX(1); }
+}
+
+.intro-logo-stage {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: min(224px, 40vw);
+  aspect-ratio: 2240 / 1916;
+  display: grid;
+  place-items: center;
+  transform:
+    translate(-50%, -50%)
+    scaleX(1)
+    scaleY(1);
+  transform-origin: center;
+  will-change: transform;
+  z-index: 4;
+}
+.intro-phase-opening .intro-logo-stage {
+  animation: intro-logo-enter 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-phase-flight .intro-logo-stage,
+.intro-phase-handoff .intro-logo-stage {
+  transform:
+    translate(calc(-50% + var(--intro-x)), calc(-50% + var(--intro-y)))
+    scaleX(var(--intro-sx))
+    scaleY(var(--intro-sy));
+  transition: transform 0.92s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes intro-logo-enter {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+  55% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.intro-logo {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.intro-halo {
+  position: absolute;
+  width: 118%;
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  opacity: 0;
+}
+.intro-halo-red {
+  border-color: color-mix(in srgb, var(--brand-red) 48%, transparent);
+}
+.intro-halo-blue {
+  width: 142%;
+  border-color: color-mix(in srgb, var(--brand-blue) 30%, transparent);
+}
+.intro-phase-opening .intro-halo-red {
+  animation: intro-halo 1.9s 0.1s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+.intro-phase-opening .intro-halo-blue {
+  animation: intro-halo 2.2s 0.45s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes intro-halo {
+  0% { opacity: 0; transform: scale(0.82); }
+  18% { opacity: 0.8; }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+
+.intro-wordmark {
+  position: fixed;
+  left: 50%;
+  top: calc(50% + 132px);
+  width: min(100% - 40px, 620px);
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 3;
+  opacity: 0;
+}
+.intro-phase-motto .intro-wordmark,
+.intro-phase-flight .intro-wordmark {
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+.intro-phase-flight .intro-wordmark {
+  opacity: 0;
+}
+.intro-kicker {
+  margin: 0 0 15px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.intro-motto {
+  display: grid;
+  gap: 3px;
+}
+.intro-motto span {
+  display: block;
+  opacity: 0;
+  transform: translateY(12px);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+.intro-phase-motto .intro-motto span,
+.intro-phase-flight .intro-motto span {
+  animation: intro-motto-in 0.55s var(--motto-delay) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.intro-motto span:nth-child(2) { color: var(--brand-red); }
+.intro-motto span:nth-child(3) { color: var(--brand-blue); }
+@keyframes intro-motto-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+.intro-est {
+  margin: 17px 0 0;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 36%, transparent);
+}
+.intro-skip {
+  position: fixed;
+  right: 20px;
+  bottom: 18px;
+  z-index: 8;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.intro-skip:hover { background: var(--mist); }
+.intro-progress {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  width: min(230px, 42vw);
+  height: 2px;
+  overflow: hidden;
+  transform: translateX(-50%);
+  background: var(--line);
+  z-index: 7;
+}
+.intro-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--ink);
+  animation: intro-progress 3.38s linear forwards;
+}
+@keyframes intro-progress {
+  to { width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .intro-logo-stage { width: min(188px, 54vw); }
+  .intro-wordmark { top: calc(50% + 112px); width: min(100% - 28px, 520px); }
+  .intro-kicker { font-size: 0.58rem; }
+  .intro-motto span { font-size: clamp(1.35rem, 7vw, 2.25rem); }
+  .intro-est { margin-top: 13px; font-size: 0.58rem; }
+  .intro-skip { right: 12px; bottom: 12px; }
+  .intro-progress { bottom: 14px; width: min(190px, 38vw); left: 26%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-ready main,
+  .site-ready footer {
+    transition: none;
+  }
+  .intro-overlay,
+  .intro-phase-flight .intro-logo-stage,
+  .intro-phase-handoff .intro-logo-stage {
+    transition: none;
+  }
+  .intro-phase-opening .intro-logo-stage,
+  .intro-phase-opening .intro-halo-red,
+  .intro-phase-opening .intro-halo-blue,
+  .intro-phase-motto .intro-grid-line-x,
+  .intro-phase-motto .intro-grid-line-y,
+  .intro-phase-motto .intro-motto span {
+    animation: none;
+  }
+  .intro-phase-motto .intro-logo-stage,
+  .intro-phase-flight .intro-logo-stage {
+    transform: translate(-50%, -50%);
+  }
+}
 /* ---------- Reset & tokens ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: auto; scroll-padding-top: 72px; }
