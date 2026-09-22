@@ -12,7 +12,7 @@ export function useReveal<T extends HTMLElement>() {
     const node = ref.current;
     if (!node) return;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
       node.classList.add('reveal-in');
       return;
     }
