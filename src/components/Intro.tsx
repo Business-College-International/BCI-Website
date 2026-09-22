@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type IntroProps = {
   onComplete: () => void;
@@ -14,6 +14,14 @@ export function Intro({ onComplete }: IntroProps) {
   const [flight, setFlight] = useState({ x: 0, y: 0, sx: 1, sy: 1 });
   const completeRef = useRef(false);
 
+  const finish = useCallback(() => {
+    if (completeRef.current) return;
+    completeRef.current = true;
+    document.documentElement.classList.remove('intro-active');
+    document.body.classList.remove('intro-active');
+    onComplete();
+  }, [finish]);
+
   useEffect(() => {
     const root = document.documentElement;
     const body = document.body;
@@ -22,14 +30,6 @@ export function Intro({ onComplete }: IntroProps) {
 
     root.classList.add('intro-active');
     body.classList.add('intro-active');
-
-    const finish = () => {
-      if (completeRef.current) return;
-      completeRef.current = true;
-      root.classList.remove('intro-active');
-      body.classList.remove('intro-active');
-      onComplete();
-    };
 
     const skip = () => finish();
 
