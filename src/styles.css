@@ -293,8 +293,7 @@ html, body { scroll-snap-type: y proximity; }
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 28px;
-  background:
-    linear-gradient(to bottom, color-mix(in srgb, var(--paper) 94%, transparent), var(--mist));
+  background: var(--mist);
   box-shadow: 0 28px 70px rgba(20, 20, 20, 0.07);
 }
 .hero-art-frame::before {
