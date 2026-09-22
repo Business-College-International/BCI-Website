@@ -74,7 +74,10 @@ export function Hero({ introComplete }: HeroProps) {
         <div className="hero-copy">
           <p className="eyebrow">{school.shortName} · {school.country} · {school.founded}</p>
 
-          <h1 className="hero-motto" aria-label={MOTTO_LINES.map((line) => line.text).join(' ')}>
+          <h1
+            className="hero-motto"
+            aria-label={MOTTO_LINES.map((line) => line.text).join(' ')}
+          >
             {MOTTO_LINES.map((line, index) => {
               const visibleText =
                 index < activeLine
@@ -89,7 +92,10 @@ export function Hero({ introComplete }: HeroProps) {
                 <span key={line.text} className={'hero-motto-line ' + line.className}>
                   <span aria-hidden="true">{visibleText}</span>
                   {index === activeLine && (
-                    <span className={'hero-motto-cursor' + (cursorVisible ? '' : ' hero-motto-cursor-hidden')} aria-hidden="true" />
+                    <span
+                      className={'hero-motto-cursor' + (cursorVisible ? '' : ' hero-motto-cursor-hidden')}
+                      aria-hidden="true"
+                    />
                   )}
                 </span>
               );

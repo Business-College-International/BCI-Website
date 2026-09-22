@@ -338,8 +338,14 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
-html, body { scroll-snap-type: y proximity; }
-[data-snap-section] { scroll-snap-align: start; scroll-snap-stop: normal; }
+html, body {
+  scroll-snap-type: y proximity;
+  overscroll-behavior-y: none;
+}
+[data-snap-section] {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
 @media (prefers-reduced-motion: reduce) {
   html, body { scroll-snap-type: none; }
 }
@@ -633,6 +639,46 @@ html, body { scroll-snap-type: y proximity; }
   font-size: clamp(0.9rem, 1.6vw, 1.08rem);
   font-weight: 700;
   line-height: 1.2;
+}
+
+/* ---------- Hero motto ---------- */
+.hero-motto {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  gap: 0;
+  min-height: 2.94em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.7rem, 7vw, 5.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  align-items: start;
+}
+.hero-motto-line {
+  display: block;
+  min-height: 0.98em;
+  white-space: nowrap;
+}
+.hero-motto-school { color: var(--ink); }
+.hero-motto-dream { color: var(--brand-red); }
+.hero-motto-future { color: var(--brand-blue); }
+.hero-motto-cursor {
+  display: inline-block;
+  width: 0.055em;
+  height: 0.78em;
+  margin-left: 0.09em;
+  vertical-align: -0.04em;
+  background: currentColor;
+  animation: hero-motto-cursor-blink 0.72s steps(1, end) infinite;
+}
+.hero-motto-cursor-hidden {
+  opacity: 0;
+  animation: none;
+}
+@keyframes hero-motto-cursor-blink {
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
 }
 
 /* ---------- Hero ---------- */
@@ -1077,7 +1123,7 @@ html, body { scroll-snap-type: y proximity; }
   .story-timeline::before { left: 15px; top: 16px; }
   .about-bottom { margin-top: 34px; }
   .hero-shell { gap: 28px; }
-  .hero-motto { font-size: clamp(2.35rem, 11vw, 4.3rem); min-height: 3.2em; }
+  .hero-motto { font-size: clamp(2.35rem, 11vw, 4.3rem); min-height: 2.94em; }
   .hero-art-frame { border-radius: 22px; }
   .hero-art-top { padding: 14px 16px 10px; }
   .hero-art-rule { margin: 0 16px; }

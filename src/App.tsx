@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSnapAssist } from './hooks/useSnapAssist';
 import { Intro } from './components/Intro';
 import { Nav } from './components/Nav';
 import { Hero } from './components/Hero';
@@ -16,7 +15,6 @@ import { Footer } from './components/Footer';
 
 export default function App() {
   const [introComplete, setIntroComplete] = useState(false);
-  useSnapAssist();
 
   const replayIntro = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
