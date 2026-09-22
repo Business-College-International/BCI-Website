@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { levels, programmes } from '../data/content';
 import { useReveal } from '../hooks/useReveal';
 
-const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/+$/, '');
 const API_BASE_URL = configuredApiBaseUrl || (import.meta.env.PROD ? null : 'http://localhost:3000/api/v1');
 const REQUEST_TIMEOUT_MS = 15000;
 

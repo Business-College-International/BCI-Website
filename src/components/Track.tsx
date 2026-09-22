@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 
-const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/+$/, '');
 const API_BASE_URL = configuredApiBaseUrl || (import.meta.env.PROD ? null : 'http://localhost:3000/api/v1');
 const REQUEST_TIMEOUT_MS = 10000;
 
@@ -24,6 +24,28 @@ function formatLevel(level: string) {
 
 function formatProgramme(programme: string) {
   return programme === 'NONE' ? 'Basic school' : programme.replaceAll('_', ' ');
+}
+
+function isTrackingResult(value: unknown): value is TrackingResult {
+  if (!value || typeof value !== 'object') return false;
+
+  const result = value as Record<string, unknown>;
+  return (
+    typeof result.trackingCode === 'string' &&
+    typeof result.levelApplied === 'string' &&
+    typeof result.programmeApplied === 'string' &&
+    typeof result.status === 'string' &&
+    typeof result.submittedAt === 'string' &&
+    typeof result.updatedAt === 'string' &&
+    Array.isArray(result.timeline) &&
+    result.timeline.every(
+      (event) =>
+        !!event &&
+        typeof event === 'object' &&
+        typeof (event as Record<string, unknown>).code === 'string' &&
+        typeof (event as Record<string, unknown>).at === 'string',
+    )
+  );
 }
 
 export function Track() {
@@ -49,22 +71,18 @@ export function Track() {
 
       const response = await fetch(
         API_BASE_URL + '/applications/track/' + encodeURIComponent(code),
-        { signal: controller.signal },
+        {
+          signal: controller.signal,
+          cache: 'no-store',
+          headers: { Accept: 'application/json' },
+        },
       );
       if (!response.ok) throw new Error('not-found');
 
       const result: unknown = await response.json();
-      if (
-        !result ||
-        typeof result !== 'object' ||
-        typeof (result as Record<string, unknown>).trackingCode !== 'string' ||
-        typeof (result as Record<string, unknown>).status !== 'string' ||
-        !Array.isArray((result as Record<string, unknown>).timeline)
-      ) {
-        throw new Error('invalid-response');
-      }
+      if (!isTrackingResult(result)) throw new Error('invalid-response');
 
-      setStatusResult(result as TrackingResult);
+      setStatusResult(result);
     } catch (err) {
       setError(
         err instanceof Error && err.message === 'website-api-not-configured'
