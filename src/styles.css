@@ -20,8 +20,8 @@ button { cursor: pointer; }
   --paper: #ffffff;
   --mist: #f5f5f6;
   --line: rgba(20, 20, 20, 0.10);
-  --brand-red: #df2027;
-  --brand-blue: #0757b7;
+  --brand-red: #d02020;
+  --brand-blue: #084098;
   --accent: var(--brand-red);
 
   --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
@@ -195,6 +195,22 @@ html, body { scroll-snap-type: y proximity; }
   align-items: center;
   gap: 20px;
 }
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 12px;
+  z-index: 100;
+  transform: translateY(-180%);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--ink-soft);
+  color: var(--paper);
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+.skip-link:focus { transform: translateY(0); }
+
 .nav-brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
 .nav-logo {
   width: 46px;
@@ -267,7 +283,14 @@ html, body { scroll-snap-type: y proximity; }
 .placeholder-square { aspect-ratio: 1 / 1; }
 .placeholder-tall { aspect-ratio: 3 / 4; }
 .placeholder-icon { width: 34px; height: 34px; }
-.placeholder-caption { font-size: 0.84rem; font-weight: 500; max-width: 32ch; line-height: 1.5; }
+.placeholder-kicker {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.placeholder-caption { font-size: 0.84rem; font-weight: 600; max-width: 32ch; line-height: 1.5; }
 
 /* ---------- Pathway / stage cards ---------- */
 .stage-grid, .route-grid, .programme-grid, .gallery-grid, .contact-list { margin-top: 36px; }
@@ -328,6 +351,7 @@ html, body { scroll-snap-type: y proximity; }
   padding: 30px;
   box-shadow: 0 24px 60px rgba(20, 20, 20, 0.05);
 }
+.card:focus-within { border-color: color-mix(in srgb, var(--ink) 28%, var(--line)); }
 .apply-section { align-items: stretch; }
 .application-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .form-title { grid-column: 1 / -1; margin-bottom: 6px; }
@@ -349,7 +373,10 @@ html, body { scroll-snap-type: y proximity; }
   outline: none;
   transition: border-color 0.15s ease;
 }
-.application-form input:focus, .application-form select:focus, .track-form input:focus { border-color: var(--ink); }
+.application-form input:focus, .application-form select:focus, .track-form input:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(20, 20, 20, 0.06);
+}
 .full { grid-column: 1 / -1; }
 .field-note {
   display: grid;
@@ -452,5 +479,13 @@ html, body { scroll-snap-type: y proximity; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn-row .btn { width: 100%; }
   .hero-image { margin-top: 36px; }
+  .nav-logo { width: 48px; height: 41px; }
+  .nav-name { font-size: 0.95rem; }
   .card { padding: 22px; }
+  .placeholder { border-radius: 18px; padding: 20px; }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
 }
