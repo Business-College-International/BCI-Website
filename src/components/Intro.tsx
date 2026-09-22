@@ -1,17 +1,25 @@
+import type { CSSProperties } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { brandMottoLines } from '../data/content';
 
 type IntroProps = {
   onComplete: () => void;
+  onHandoff: () => void;
 };
 
 type IntroPhase = 'opening' | 'motto' | 'flight' | 'handoff';
 
-const MOTTO = ['Our dream.', 'Our school.', 'Our future.'];
+type FlightTarget = {
+  centerX: number;
+  centerY: number;
+  width: number;
+  height: number;
+};
 
-export function Intro({ onComplete }: IntroProps) {
+export function Intro({ onComplete, onHandoff }: IntroProps) {
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [phase, setPhase] = useState<IntroPhase>('opening');
-  const [flight, setFlight] = useState({ x: 0, y: 0, sx: 1, sy: 1 });
+  const [flight, setFlight] = useState<FlightTarget | null>(null);
   const completeRef = useRef(false);
 
   const finish = useCallback(() => {
@@ -19,9 +27,8 @@ export function Intro({ onComplete }: IntroProps) {
     completeRef.current = true;
     document.documentElement.classList.remove('intro-active');
     document.body.classList.remove('intro-active');
-    onHandoff();
     onComplete();
-  }, [onComplete, onHandoff]);
+  }, [onComplete]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -32,70 +39,69 @@ export function Intro({ onComplete }: IntroProps) {
     root.classList.add('intro-active');
     body.classList.add('intro-active');
 
-    const skip = () => finish();
-
     if (reducedMotion) {
-      timers.push(window.setTimeout(finish, 900));
+      timers.push(window.setTimeout(() => {
+        onHandoff();
+        finish();
+      }, 300));
     } else {
       timers.push(window.setTimeout(() => setPhase('motto'), 520));
+
       timers.push(window.setTimeout(() => {
-        const source = logoRef.current;
         const target = document.querySelector<HTMLElement>('[data-nav-logo-target]');
 
-        if (!source || !target) {
+        if (!target) {
+          onHandoff();
           finish();
           return;
         }
 
-        const sourceRect = source.getBoundingClientRect();
         const targetRect = target.getBoundingClientRect();
 
-        const sourceCenterX = sourceRect.left + sourceRect.width / 2;
-        const sourceCenterY = sourceRect.top + sourceRect.height / 2;
-        const targetCenterX = targetRect.left + targetRect.width / 2;
-        const targetCenterY = targetRect.top + targetRect.height / 2;
-
         setFlight({
-          x: targetCenterX - sourceCenterX,
-          y: targetCenterY - sourceCenterY,
-          sx: targetRect.width / sourceRect.width,
-          sy: targetRect.height / sourceRect.height,
+          centerX: targetRect.left + targetRect.width / 2,
+          centerY: targetRect.top + targetRect.height / 2,
+          width: targetRect.width,
+          height: targetRect.height,
         });
         setPhase('flight');
 
-        timers.push(window.setTimeout(() => setPhase('handoff'), 920));
-        timers.push(window.setTimeout(finish, 1450));
+        timers.push(window.setTimeout(() => {
+          setPhase('handoff');
+          onHandoff();
+          timers.push(window.setTimeout(finish, 540));
+        }, 960));
       }, 1900));
     }
 
-    window.addEventListener('intro:skip', skip);
     return () => {
       timers.forEach(window.clearTimeout);
-      window.removeEventListener('intro:skip', skip);
       root.classList.remove('intro-active');
       body.classList.remove('intro-active');
     };
-  }, [finish]);
+  }, [finish, onHandoff]);
+
+  const flightStyle: CSSProperties | undefined = flight
+    ? {
+        left: flight.centerX,
+        top: flight.centerY,
+        width: flight.width,
+        height: flight.height,
+      }
+    : undefined;
 
   return (
-    <div className={'intro-overlay intro-phase-' + phase} role="status" aria-label="Welcome to Business College International">
+    <div
+      className={'intro-overlay intro-phase-' + phase}
+      role="status"
+      aria-label="Welcome to Business College International"
+    >
       <div className="intro-grid" aria-hidden="true">
         <span className="intro-grid-line intro-grid-line-x" />
         <span className="intro-grid-line intro-grid-line-y" />
       </div>
 
-      <div
-        ref={logoRef}
-        className="intro-logo-stage"
-        style={
-          {
-            '--intro-x': `${flight.x}px`,
-            '--intro-y': `${flight.y}px`,
-            '--intro-sx': flight.sx,
-            '--intro-sy': flight.sy,
-          } as React.CSSProperties
-        }
-      >
+      <div ref={logoRef} className="intro-logo-stage" style={flightStyle}>
         <span className="intro-halo intro-halo-red" aria-hidden="true" />
         <span className="intro-halo intro-halo-blue" aria-hidden="true" />
         <img
@@ -112,22 +118,26 @@ export function Intro({ onComplete }: IntroProps) {
       <div className="intro-wordmark">
         <p className="intro-kicker">Business College International · Tamale</p>
         <div className="intro-motto">
-          {MOTTO.map((line, index) => (
+          {brandMottoLines.map((line, index) => (
             <span
-              key={line}
-              style={{ '--motto-delay': `${index * 110}ms` } as React.CSSProperties}
+              key={line.text}
+              className={line.className}
+              style={{ '--motto-delay': `${index * 110}ms` } as CSSProperties}
             >
-              {line}
+              {line.text}
             </span>
           ))}
         </div>
-        <p className="intro-est">Established {2003}</p>
+        <p className="intro-est">Established 2003</p>
       </div>
 
       <button
         type="button"
         className="intro-skip"
-        onClick={finish}
+        onClick={() => {
+          onHandoff();
+          finish();
+        }}
         aria-label="Skip the BCI opening animation"
       >
         Skip intro
