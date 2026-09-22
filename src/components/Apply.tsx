@@ -4,6 +4,7 @@ import { useReveal } from '../hooks/useReveal';
 
 const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
 const API_BASE_URL = configuredApiBaseUrl || (import.meta.env.PROD ? null : 'http://localhost:3000/api/v1');
+const REQUEST_TIMEOUT_MS = 15000;
 
 function formatLevel(level: string) {
   const match = level.match(/^(KG|P|JHS|SHS)(\d)$/);
@@ -22,6 +23,7 @@ export function Apply() {
   const [error, setError] = useState<string | null>(null);
   const [trackingCode, setTrackingCode] = useState<string | null>(null);
   const isShs = useMemo(() => form.levelApplied.startsWith('SHS'), [form.levelApplied]);
+  const today = new Date().toISOString().slice(0, 10);
 
   useEffect(() => {
     if (!isShs) setForm((current) => ({ ...current, programmeApplied: 'NONE' }));
@@ -39,6 +41,9 @@ export function Apply() {
     setError(null);
     setTrackingCode(null);
 
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
     try {
       if (!API_BASE_URL) throw new Error('website-api-not-configured');
 
@@ -55,15 +60,28 @@ export function Apply() {
         throw new Error('missing-required-name');
       }
 
+      if (!form.dob || form.dob > today) {
+        throw new Error('invalid-dob');
+      }
+
+      if (applicationPayload.guardianPhone.length < 7) {
+        throw new Error('invalid-phone');
+      }
+
       const response = await fetch(API_BASE_URL + '/applications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(applicationPayload),
+        signal: controller.signal,
       });
 
       if (!response.ok) throw new Error('Application submission failed');
 
-      const result = (await response.json()) as { trackingCode: string };
+      const result = (await response.json()) as { trackingCode?: unknown };
+      if (typeof result.trackingCode !== 'string' || !result.trackingCode.trim()) {
+        throw new Error('invalid-response');
+      }
+
       setTrackingCode(result.trackingCode);
       document.getElementById('track')?.scrollIntoView({
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
@@ -78,6 +96,7 @@ export function Apply() {
             : 'We could not submit the application right now. Please try again.',
       );
     } finally {
+      window.clearTimeout(timeout);
       setSubmitting(false);
     }
   }
@@ -104,6 +123,7 @@ export function Apply() {
             First name
             <input
               required
+              maxLength={100}
               autoComplete="given-name"
               value={form.firstName}
               onChange={(e) => setField('firstName', e.target.value)}
@@ -113,6 +133,7 @@ export function Apply() {
             Last name
             <input
               required
+              maxLength={100}
               autoComplete="family-name"
               value={form.lastName}
               onChange={(e) => setField('lastName', e.target.value)}
@@ -123,6 +144,7 @@ export function Apply() {
             <input
               required
               type="date"
+              max={today}
               value={form.dob}
               onChange={(e) => setField('dob', e.target.value)}
             />
@@ -160,6 +182,8 @@ export function Apply() {
             Guardian name
             <input
               required
+              minLength={2}
+              maxLength={160}
               autoComplete="name"
               value={form.guardianName}
               onChange={(e) => setField('guardianName', e.target.value)}
@@ -169,6 +193,8 @@ export function Apply() {
             Guardian phone
             <input
               required
+              minLength={7}
+              maxLength={30}
               type="tel"
               inputMode="tel"
               autoComplete="tel"
@@ -179,6 +205,8 @@ export function Apply() {
           <label className="full">
             Previous school
             <input
+              minLength={2}
+              maxLength={200}
               autoComplete="organization"
               value={form.previousSchool}
               onChange={(e) => setField('previousSchool', e.target.value)}
