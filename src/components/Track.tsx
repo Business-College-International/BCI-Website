@@ -3,6 +3,7 @@ import { useReveal } from '../hooks/useReveal';
 
 const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
 const API_BASE_URL = configuredApiBaseUrl || (import.meta.env.PROD ? null : 'http://localhost:3000/api/v1');
+const REQUEST_TIMEOUT_MS = 10000;
 
 type TrackingResult = {
   trackingCode: string;
@@ -38,22 +39,42 @@ export function Track() {
     setError(null);
     setStatusResult(null);
 
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
     try {
       if (!API_BASE_URL) throw new Error('website-api-not-configured');
-      const code = statusCode.trim();
+      const code = statusCode.trim().toUpperCase();
       if (!code) throw new Error('missing');
 
-      const response = await fetch(API_BASE_URL + '/applications/track/' + encodeURIComponent(code));
+      const response = await fetch(
+        API_BASE_URL + '/applications/track/' + encodeURIComponent(code),
+        { signal: controller.signal },
+      );
       if (!response.ok) throw new Error('not-found');
 
-      setStatusResult(await response.json());
+      const result: unknown = await response.json();
+      if (
+        !result ||
+        typeof result !== 'object' ||
+        typeof (result as Record<string, unknown>).trackingCode !== 'string' ||
+        typeof (result as Record<string, unknown>).status !== 'string' ||
+        !Array.isArray((result as Record<string, unknown>).timeline)
+      ) {
+        throw new Error('invalid-response');
+      }
+
+      setStatusResult(result as TrackingResult);
     } catch (err) {
       setError(
         err instanceof Error && err.message === 'website-api-not-configured'
           ? 'Application tracking is temporarily unavailable because the website API is not configured.'
+          : err instanceof DOMException && err.name === 'AbortError'
+          ? 'Application tracking timed out. Please try again.'
           : 'We could not find that application. Check the tracking code and try again.',
       );
     } finally {
+      window.clearTimeout(timeout);
       setLoading(false);
     }
   }
@@ -77,6 +98,7 @@ export function Track() {
               autoCapitalize="characters"
               spellCheck={false}
               autoComplete="off"
+              maxLength={40}
               required
             />
           </label>
