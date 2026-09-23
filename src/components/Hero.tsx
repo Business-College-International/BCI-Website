@@ -98,11 +98,9 @@ export function Hero({ introComplete }: { introComplete: boolean }) {
             <a className="btn btn-secondary" href="#track">Track an application</a>
           </div>
 
-          <div className="hero-facts" aria-label="School facts">
-            <span>Founded {school.founded}</span>
-            <span>KG · Primary · JHS · SHS</span>
-            <span>Private &amp; GES-placed students</span>
-          </div>
+          <p className="hero-meta">
+            Established {school.founded} · KG through SHS · Tamale, Ghana
+          </p>
         </div>
 
         <FeaturedCarousel />
