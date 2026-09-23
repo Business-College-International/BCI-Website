@@ -1225,6 +1225,8 @@ html, body {
 .route-card-1 .route-action span:last-child { color: var(--paper); }
 
 /* ---------- Editorial pathway + programme lists ---------- */
+.programme-section { min-height: auto; }
+
 .section-heading-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.56fr);
