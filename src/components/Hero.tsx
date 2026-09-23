@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import { brandMottoLines, school } from '../data/content';
+import { FeaturedCarousel } from './FeaturedCarousel';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
 export function Hero({ introComplete }: { introComplete: boolean }) {
@@ -62,10 +63,7 @@ export function Hero({ introComplete }: { introComplete: boolean }) {
         <div className="hero-copy">
           <p className="eyebrow">{school.shortName} · {school.country} · {school.founded}</p>
 
-          <h1
-            className="hero-motto"
-            aria-label={brandMottoLines.map((line) => line.text).join(' ')}
-          >
+          <h1 className="hero-motto" aria-label={brandMottoLines.map((line) => line.text).join(' ')}>
             {brandMottoLines.map((line, index) => {
               const visibleText =
                 index < activeLine
@@ -107,27 +105,7 @@ export function Hero({ introComplete }: { introComplete: boolean }) {
           </div>
         </div>
 
-        <aside className="hero-art" aria-label="BCI at a glance">
-          <div className="hero-proof">
-            <div className="hero-proof-top">
-              <span>BCI / 01</span>
-              <span>Since {school.founded}</span>
-            </div>
-            <div className="hero-proof-rule" aria-hidden="true">
-              <span className="hero-proof-rule-red" />
-              <span className="hero-proof-rule-blue" />
-            </div>
-            <div className="hero-proof-core">
-              <span>KG</span>
-              <span className="hero-proof-arrow" aria-hidden="true">→</span>
-              <span>SHS</span>
-            </div>
-            <div className="hero-proof-bottom">
-              <span className="hero-proof-index">PATHWAY</span>
-              <p>One connected school journey from kindergarten through senior high school.</p>
-            </div>
-          </div>
-        </aside>
+        <FeaturedCarousel />
       </div>
 
       <ImagePlaceholder
