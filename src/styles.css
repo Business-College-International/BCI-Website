@@ -697,8 +697,10 @@ html, body {
 .featured-card {
   position: relative;
   display: grid;
-  grid-template-rows: minmax(210px, 0.92fr) minmax(230px, 1fr);
+  grid-template-rows: 210px minmax(0, 1fr);
+  height: 505px;
   min-height: 505px;
+  max-height: 505px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.72);
   border-radius: 30px;
@@ -778,10 +780,26 @@ html, body {
 }
 .featured-body {
   display: grid;
-  align-content: space-between;
-  gap: 22px;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+  gap: 16px;
   padding: 24px 25px 23px;
   background: rgba(255,255,255,0.68);
+}
+.featured-body > div:first-child {
+  min-height: 0;
+  overflow: hidden;
+}
+.featured-description {
+  overflow-y: auto;
+  max-height: 92px;
+  padding-right: 6px;
+  scrollbar-width: thin;
+}
+.featured-description::-webkit-scrollbar { width: 5px; }
+.featured-description::-webkit-scrollbar-thumb {
+  background: rgba(20,20,20,0.18);
+  border-radius: 999px;
 }
 .featured-eyebrow {
   margin: 0 0 8px;
@@ -805,6 +823,15 @@ html, body {
   color: color-mix(in srgb, var(--ink) 67%, transparent);
   font-size: 0.9rem;
   line-height: 1.64;
+  overflow-y: auto;
+  max-height: 92px;
+  padding-right: 6px;
+  scrollbar-width: thin;
+}
+.featured-description::-webkit-scrollbar { width: 5px; }
+.featured-description::-webkit-scrollbar-thumb {
+  background: rgba(20,20,20,0.18);
+  border-radius: 999px;
 }
 .featured-footer {
   display: flex;
@@ -885,7 +912,13 @@ html, body {
   border: 1px solid var(--line);
   border-radius: 999px;
 }
-.hero-image { margin-top: 56px; }
+.hero-image {
+  margin: 30px auto 0;
+  width: min(100%, 1040px);
+  aspect-ratio: 16 / 5;
+  max-height: 250px;
+}
+
 
 /* ---------- Placeholder images ---------- */
 .placeholder {
@@ -1267,7 +1300,7 @@ html, body {
   .about-founder-card { min-height: 330px; }
   .hero-shell { grid-template-columns: 1fr; gap: 42px; }
   .featured-carousel { order: -1; }
-  .featured-card { min-height: 480px; }
+  .featured-card { height: 480px; min-height: 480px; max-height: 480px; grid-template-rows: 205px minmax(0, 1fr); }
   .stage-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .programme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .route-grid { grid-template-columns: 1fr; }
@@ -1298,7 +1331,7 @@ html, body {
   .application-form { grid-template-columns: 1fr; }
   .btn-row { flex-direction: column; align-items: stretch; }
   .btn-row .btn { width: 100%; }
-  .hero-image { margin-top: 36px; }
+  .hero-image { margin: 28px auto 0; width: min(100%, 1040px); aspect-ratio: 16 / 5; max-height: 250px; }
   .about-story { margin-top: 36px; gap: 30px; }
   .about-founder-card { min-height: 300px; border-radius: 22px; padding: 22px; }
   .story-item { grid-template-columns: 32px 1fr; gap: 14px; padding-bottom: 26px; }
@@ -1307,7 +1340,9 @@ html, body {
   .about-bottom { margin-top: 34px; }
   .hero-shell { gap: 28px; }
   .hero-motto { font-size: clamp(2.35rem, 11vw, 4.3rem); min-height: 2.94em; }
-  .featured-card { min-height: 450px; grid-template-rows: 190px minmax(240px, 1fr); border-radius: 22px; }
+  .featured-card { height: 450px; min-height: 450px; max-height: 450px; grid-template-rows: 180px minmax(0, 1fr); border-radius: 22px; }
+  .featured-description { max-height: 96px; }
+
   .featured-body { padding: 20px 19px 18px; }
   .featured-media-placeholder { padding: 22px; }
   .featured-media::after { left: 16px; right: 16px; }
