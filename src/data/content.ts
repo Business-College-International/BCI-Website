@@ -101,9 +101,8 @@ export const galleryPlaceholders = [
 
 export const navLinks = [
   { label: 'About', href: '#about' },
-  { label: 'Pathway', href: '#pathway' },
-  { label: 'Admissions routes', href: '#routes' },
+  { label: 'Admissions', href: '#routes' },
   { label: 'Programmes', href: '#programmes' },
-  { label: 'Life at BCI', href: '#life' },
+  { label: 'Life', href: '#life' },
   { label: 'Contact', href: '#contact' },
 ];
