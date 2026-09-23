@@ -2,7 +2,7 @@ import { useReveal } from '../hooks/useReveal';
 import { programmes } from '../data/content';
 
 export function Programmes() {
-  const ref = useReveal<HTMLDivElement>(undefined, { triggerOnce: true });
+  const ref = useReveal<HTMLDivElement>();
 
   return (
     <section id="programmes" data-snap-section className="section">
