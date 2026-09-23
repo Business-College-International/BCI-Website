@@ -7,7 +7,6 @@ import { Pathway } from './components/Pathway';
 import { Routes } from './components/Routes';
 import { Programmes } from './components/Programmes';
 import { Gallery } from './components/Gallery';
-import { Motto } from './components/Motto';
 import { Apply } from './components/Apply';
 import { Track } from './components/Track';
 import { Contact } from './components/Contact';
@@ -48,7 +47,6 @@ export default function App() {
         <Routes />
         <Programmes />
         <Gallery />
-        <Motto />
         <Apply />
         <Track />
         <Contact />
