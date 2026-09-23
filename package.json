@@ -1,21 +1,26 @@
 {
   "name": "bci-website",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Public marketing website for Business College International (BCI) — school info, programmes, and online application.",
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
-    "react-router-dom": "^6.24.0"
+    "react-router-dom": "^6.24.0",
+    "@fontsource/bricolage-grotesque": "^5.0.20",
+    "@fontsource/inter": "^5.0.18"
   },
   "devDependencies": {
     "vite": "^5.3.0",
     "@vitejs/plugin-react": "^4.3.0",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0"
   }
 }
