@@ -266,7 +266,11 @@ body.intro-active {
 }
 /* ---------- Reset & tokens ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: auto; scroll-padding-top: 72px; }
+html {
+  scroll-behavior: auto;
+  scroll-padding-top: 72px;
+  scrollbar-gutter: stable;
+}
 body {
   margin: 0;
   min-width: 320px;
