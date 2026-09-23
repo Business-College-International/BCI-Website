@@ -328,13 +328,13 @@ body {
 }
 .section {
   position: relative;
-  min-height: 100svh;
+  min-height: auto;
   scroll-snap-align: start;
   scroll-snap-stop: normal;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(72px, 10vh, 140px) 0;
+  justify-content: flex-start;
+  padding: clamp(72px, 9vh, 120px) 0;
   scroll-margin-top: 0;
 }
 .section.tinted {
@@ -894,6 +894,7 @@ html, body {
 /* ---------- Hero ---------- */
 .hero {
   min-height: 100svh;
+  justify-content: center;
   padding-top: calc(96px + var(--safe-top));
   overflow: hidden;
 }
@@ -1621,6 +1622,7 @@ html, body {
 
 @media (max-width: 640px) {
   .section { padding: 56px 0; }
+  .hero { min-height: 100svh; justify-content: center; }
   .gallery-grid { grid-template-columns: 1fr; }
   .section-heading-row { gap: 10px; }
   .pathway-list { margin-top: 26px; }
