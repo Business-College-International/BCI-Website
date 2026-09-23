@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react';
 
-/**
- * Attaches an IntersectionObserver to the returned ref. The element starts
- * with the reveal class and gets reveal-in added the first time it enters
- * the viewport. Never re-hides on scroll-out.
- */
+function reveal(node: HTMLElement) {
+  node.classList.add('reveal-in');
+}
+
 export function useReveal<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
 
@@ -12,25 +11,68 @@ export function useReveal<T extends HTMLElement>() {
     const node = ref.current;
     if (!node) return;
 
+    let revealed = false;
+    const revealOnce = () => {
+      if (revealed) return;
+      revealed = true;
+      reveal(node);
+      observer?.unobserve(node);
+      window.removeEventListener('scroll', checkVisibility, passiveOptions);
+      window.removeEventListener('resize', checkVisibility);
+      window.removeEventListener('hashchange', checkVisibility);
+    };
+
+    const checkVisibility = () => {
+      const rect = node.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top < viewportHeight && rect.bottom > 0) {
+        revealOnce();
+      }
+    };
+
+    const passiveOptions: AddEventListenerOptions = { passive: true };
+    let observer: IntersectionObserver | undefined;
+
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
-      node.classList.add('reveal-in');
+      revealOnce();
       return;
     }
 
-    const observer = new IntersectionObserver(
+    observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
-            entry.target.classList.add('reveal-in');
-            observer.unobserve(entry.target);
+            revealOnce();
+            break;
           }
-        });
+        }
       },
-      { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0, rootMargin: '0px' },
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+
+    // Cover direct hash navigation and layout shifts that can happen after mount.
+    window.addEventListener('scroll', checkVisibility, passiveOptions);
+    window.addEventListener('resize', checkVisibility);
+    window.addEventListener('hashchange', checkVisibility);
+
+    requestAnimationFrame(() => {
+      checkVisibility();
+      window.setTimeout(checkVisibility, 120);
+      window.setTimeout(checkVisibility, 500);
+    });
+
+    // A public page must never remain visually blank because an observer missed an event.
+    const safetyTimer = window.setTimeout(revealOnce, 1800);
+
+    return () => {
+      window.clearTimeout(safetyTimer);
+      observer?.disconnect();
+      window.removeEventListener('scroll', checkVisibility, passiveOptions);
+      window.removeEventListener('resize', checkVisibility);
+      window.removeEventListener('hashchange', checkVisibility);
+    };
   }, []);
 
   return ref;
