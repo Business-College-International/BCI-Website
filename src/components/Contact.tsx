@@ -27,7 +27,7 @@ export function Contact() {
             <div className="contact-detail">
               <span className="contact-detail-label">Phone</span>
               <p>
-                <a href="tel:+233232170716">0232170716</a>
+                <a href="tel:+233242170716">0242170716</a>
                 <span className="contact-separator">/</span>
                 <a href="tel:+233200613004">0200613004</a>
               </p>

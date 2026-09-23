@@ -5,7 +5,7 @@ export function Programmes() {
   const ref = useReveal<HTMLDivElement>();
 
   return (
-    <section id="programmes" data-snap-section className="section">
+    <section id="programmes" data-snap-section className="section programme-section">
       <div className="page reveal" ref={ref}>
         <div className="section-heading-row">
           <div>
