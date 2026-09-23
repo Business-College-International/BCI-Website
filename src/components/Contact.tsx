@@ -1,5 +1,4 @@
 import { useReveal } from '../hooks/useReveal';
-import { school } from '../data/content';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
 export function Contact() {
@@ -16,20 +15,34 @@ export function Contact() {
             enrolment and other enquiries.
           </p>
 
-          <div className="contact-list">
-            <div>
-              <strong>School office</strong>
-              <span>Address — to be added</span>
+          <address className="contact-details">
+            <div className="contact-detail contact-detail-wide">
+              <span className="contact-detail-label">School Office</span>
+              <p>
+                BCI, on the Tamale – Bolgatanga Trunk Road,<br />
+                Opposite Nasona Filling Station, Kanvilli, Tamale.
+              </p>
             </div>
-            <div>
-              <strong>Phone</strong>
-              <span>Phone number — to be added</span>
+
+            <div className="contact-detail">
+              <span className="contact-detail-label">Phone</span>
+              <p>
+                <a href="tel:+233232170716">0232170716</a>
+                <span className="contact-separator">/</span>
+                <a href="tel:+233200613004">0200613004</a>
+              </p>
             </div>
-            <div>
-              <strong>Email</strong>
-              <span>Email address — to be added</span>
+
+            <div className="contact-detail">
+              <span className="contact-detail-label">Email</span>
+              <p><a href="mailto:bizcollege@gmail.com">bizcollege@gmail.com</a></p>
             </div>
-          </div>
+
+            <div className="contact-detail">
+              <span className="contact-detail-label">Post</span>
+              <p>P. O. Box TL 399, Tamale, N/R</p>
+            </div>
+          </address>
 
           <div className="contact-actions">
             <a className="btn btn-primary" href="#apply">Apply to BCI</a>
@@ -42,9 +55,6 @@ export function Contact() {
             aspect="wide"
             caption="a map or exterior photo showing how to find the BCI campus"
           />
-          <p className="contact-visual-note">
-            Campus location and official contact details can be added from the school website portal.
-          </p>
         </div>
       </div>
     </section>
