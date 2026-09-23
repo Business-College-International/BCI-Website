@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Intro } from './components/Intro';
 import { Nav } from './components/Nav';
 import { Hero } from './components/Hero';
@@ -17,18 +17,26 @@ export default function App() {
   const [introActive, setIntroActive] = useState(true);
   const [siteReady, setSiteReady] = useState(false);
 
-  const replayIntro = () => {
+  const replayIntro = useCallback(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     setSiteReady(false);
     setIntroActive(true);
-  };
+  }, []);
+
+  const handleHandoff = useCallback(() => {
+    setSiteReady(true);
+  }, []);
+
+  const handleIntroComplete = useCallback(() => {
+    setIntroActive(false);
+  }, []);
 
   return (
     <div className={'snap-root ' + (siteReady ? 'site-ready' : 'site-awaiting')}>
       {introActive && (
         <Intro
-          onHandoff={() => setSiteReady(true)}
-          onComplete={() => setIntroActive(false)}
+          onHandoff={handleHandoff}
+          onComplete={handleIntroComplete}
         />
       )}
       <a className="skip-link" href="#main-content">Skip to content</a>
