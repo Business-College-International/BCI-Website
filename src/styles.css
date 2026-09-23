@@ -95,7 +95,7 @@ body.intro-active {
 }
 .intro-phase-flight .intro-logo-stage,
 .intro-phase-handoff .intro-logo-stage {
-  transform: none;
+  transform: translate(-50%, -50%);
 }
 @keyframes intro-logo-enter {
   0% { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
@@ -661,9 +661,9 @@ html, body {
   min-height: 0.98em;
   white-space: nowrap;
 }
-.hero-motto-school { color: var(--ink); }
-.hero-motto-dream { color: var(--brand-red); }
-.hero-motto-future { color: var(--brand-blue); }
+.motto-dream { color: var(--brand-red); }
+.motto-school { color: var(--ink); }
+.motto-future { color: var(--brand-blue); }
 .hero-motto-cursor {
   display: inline-block;
   width: 0.055em;
